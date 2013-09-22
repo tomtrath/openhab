@@ -1,13 +1,6 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-target
-src-gen
-bin
-xtend-gen
-
-
+target/
+src-gen/
+xtend-gen/
+bin/
+bundles/io/org.openhab.io.multimedia.tts.marytts/lib/
+.antlr*
