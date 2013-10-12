@@ -174,8 +174,6 @@ public class TCPBinding extends AbstractSocketChannelBinding<TCPBindingProvider>
 		}
 	}
 
-
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary config) throws ConfigurationException {
@@ -278,6 +276,15 @@ public class TCPBinding extends AbstractSocketChannelBinding<TCPBindingProvider>
 		logger.debug("transformed response is '{}'", transformedResponse);
 
 		return transformedResponse;
+	}
+	
+	
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	protected String getName() {
+		return "TCP Refresh Service";
 	}
 
 }

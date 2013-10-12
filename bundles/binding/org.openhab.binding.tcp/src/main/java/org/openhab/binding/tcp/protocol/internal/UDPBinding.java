@@ -174,7 +174,7 @@ public class UDPBinding extends AbstractDatagramChannelBinding<UDPBindingProvide
 			logger.warn("Can not parse input "+theUpdate+" to match command {} on item {}  ",aCommand,itemName);
 		}
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary config) throws ConfigurationException {
@@ -277,6 +277,16 @@ public class UDPBinding extends AbstractDatagramChannelBinding<UDPBindingProvide
 		logger.debug("transformed response is '{}'", transformedResponse);
 
 		return transformedResponse;
+	}
+	
+
+
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	protected String getName() {
+		return "UDP Refresh Service";
 	}
 
 
