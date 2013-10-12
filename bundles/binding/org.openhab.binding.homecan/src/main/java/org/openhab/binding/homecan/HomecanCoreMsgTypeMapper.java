@@ -80,8 +80,13 @@ public class HomecanCoreMsgTypeMapper implements HomecanMsgTypeMapper {
 				case WIND_DIRECTION:
 				case RAIN:
 				case AIR_PRESSURE:
+				case FLOAT:
 					data = new byte[4];
 					ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).putFloat(dType.floatValue());
+					return data;
+				case UINT32:
+					data = new byte[4];
+					ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).putInt(dType.intValue());
 					return data;
 				default:
 					return null;
@@ -155,7 +160,10 @@ public class HomecanCoreMsgTypeMapper implements HomecanMsgTypeMapper {
 				case WIND_DIRECTION:
 				case RAIN:
 				case AIR_PRESSURE:
-					return DecimalType.valueOf(Float.toString(ByteBuffer.wrap(msg.data).order(ByteOrder.LITTLE_ENDIAN).getFloat()));					
+				case FLOAT:
+					return DecimalType.valueOf(Float.toString(ByteBuffer.wrap(msg.data).order(ByteOrder.LITTLE_ENDIAN).getFloat()));
+				case UINT32:
+					return DecimalType.valueOf(Integer.toString(ByteBuffer.wrap(msg.data).order(ByteOrder.LITTLE_ENDIAN).getInt()));
 				default:
 					break;
 			}

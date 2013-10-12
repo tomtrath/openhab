@@ -32,6 +32,9 @@ public class HomecanMsg {
 		FTKID				(0x12),	
 		//KEY_PRESSED		(0x16),
 		//KEY_RELEASED		(0x17),
+		
+		FLOAT				(0x20),
+		UINT32				(0x21),
 				
 		KEY_SEQUENCE		(0x80),
 		STRING				(0x81),		
