@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Extension of the default OSGi bundle activator
  * 
- * @author Karel Goderis
+ * @author Thomas Trathnigg
  * @since 1.1.0
  * 
  */
@@ -48,14 +48,14 @@ public class HomecanActivator implements BundleActivator {
 	 * Called whenever the OSGi framework starts our bundle
 	 */
 	public void start(BundleContext bc) throws Exception {
-		logger.debug("Homecan binding has been started.");
+		logger.info("Homecan binding has been started.");
 	}
 
 	/**
 	 * Called whenever the OSGi framework stops our bundle
 	 */
 	public void stop(BundleContext bc) throws Exception {
-		logger.debug("Homecan binding has been stopped.");
+		logger.info("Homecan binding has been stopped.");
 	}
 
 }
