@@ -39,8 +39,9 @@ public class Squeezebox {
 	public static SqueezeServer squeezeServer;
 
 	// TODO: could make these properties configurable to support other translation services
-	private final static String GOOGLE_TRANSLATE_URL = "http://translate.google.com/translate_tts?tl=en&q=";
+	private final static String GOOGLE_TRANSLATE_URL = "http://translate.google.com/translate_tts?tl=de&q=";
 	private final static int MAX_SENTENCE_LENGTH = 100;
+	private final static String BACKUP_PLAYLIST = "backup";
 
 	@ActionDoc(text = "Turn one of your Squeezebox devices on/off", returns = "<code>true</code>, if successful and <code>false</code> otherwise.")
 	public static boolean squeezeboxPower(
@@ -182,17 +183,24 @@ public class Squeezebox {
 		int playerVolume = player.getUnmuteVolume();
 		boolean playerPowered = player.isPowered();
 		boolean playerMuted = player.isMuted();
+		boolean playerPlaying = player.isPlaying();
 		
 		// set the player ready to play this announcement
 		if (playerMuted) {
 			logger.trace("Setting player state: unmuted");
 			squeezeServer.unMute(playerId);
 		}
+		
+		squeezeServer.savePlaylist(playerId, BACKUP_PLAYLIST);
+		if (!playerPlaying) {
+			squeezeServer.pause(playerId);
+		}
+		
 		if (volume != -1) {
 			logger.trace("Setting player state: volume {}", volume);
 			squeezeServer.setVolume(playerId, volume);
 		}
-
+		
 		// can only 'say' 100 chars at a time
 		List<String> sentences = getSentences(message, MAX_SENTENCE_LENGTH);
 
@@ -236,11 +244,16 @@ public class Squeezebox {
 			player.removePlayerEventListener(listener);
 			listener = null;
 		}
-		
+
 		// clear the player playlist
-		squeezeServer.clearPlaylist(playerId);
+		//squeezeServer.clearPlaylist(playerId);
 		
 		// restore the player state
+		squeezeServer.resumePlaylist(playerId, BACKUP_PLAYLIST);
+		if (!playerPlaying) {
+			squeezeServer.pause(playerId);
+		}
+
 		if (volume != -1) {
 			logger.trace("Restoring player to previous state: volume {}", playerVolume);
 			squeezeServer.setVolume(playerId, playerVolume);

@@ -138,8 +138,8 @@ public class SqueezeServer implements ManagedService {
 		SqueezePlayer player = getPlayer(playerId);
 		if (player == null) return;
 		sendCommand(player.getMacAddress() + " playlist play " + url);
-	}
-	
+	}	
+
 	public void pause(String playerId) {
 		SqueezePlayer player = getPlayer(playerId);
 		if (player == null) return;
@@ -174,6 +174,18 @@ public class SqueezeServer implements ManagedService {
 		SqueezePlayer player = getPlayer(playerId);
 		if (player == null) return;
 		sendCommand(player.getMacAddress() + " playlist clear");
+	}
+	
+	public void savePlaylist(String playerId, String name) {
+		SqueezePlayer player = getPlayer(playerId);
+		if (player == null) return;
+		sendCommand(player.getMacAddress() + " playlist save " + name);
+	}
+	
+	public void resumePlaylist(String playerId, String name) {
+		SqueezePlayer player = getPlayer(playerId);
+		if (player == null) return;
+		sendCommand(player.getMacAddress() + " playlist resume " + name);
 	}
 	
 	public void volumeUp(String playerId) {
