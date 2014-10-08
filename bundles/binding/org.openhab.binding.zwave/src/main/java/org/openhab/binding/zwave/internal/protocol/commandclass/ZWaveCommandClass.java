@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.NumberFormatException;
 
 import org.openhab.binding.zwave.internal.protocol.SerialMessage;
 import org.openhab.binding.zwave.internal.protocol.ZWaveController;
@@ -231,7 +232,7 @@ public abstract class ZWaveCommandClass {
 		if((size+offset) >= buffer.length) {
 			logger.error("Error extracting value - length={}, offset={}, size={}.", 
 					new Object[] { buffer.length, offset, size});
-			return BigDecimal.ZERO;
+			throw new NumberFormatException();
 		}
 		
 		int value = 0;
@@ -364,11 +365,11 @@ public abstract class ZWaveCommandClass {
 		METER_TBL_MONITOR(0x3D,"METER_TBL_MONITOR",null),
 		METER_TBL_PUSH(0x3E,"METER_TBL_PUSH",null),
 		THERMOSTAT_HEATING(0x38,"THERMOSTAT_HEATING",null),
-		THERMOSTAT_MODE(0x40,"THERMOSTAT_MODE",null),
-		THERMOSTAT_OPERATING_STATE(0x42,"THERMOSTAT_OPERATING_STATE",null),
+		THERMOSTAT_MODE(0x40,"THERMOSTAT_MODE",ZWaveThermostatModeCommandClass.class),
+		THERMOSTAT_OPERATING_STATE(0x42,"THERMOSTAT_OPERATING_STATE",ZWaveThermostatOperatingStateCommandClass.class),
 		THERMOSTAT_SETPOINT(0x43,"THERMOSTAT_SETPOINT",ZWaveThermostatSetpointCommandClass.class),
-		THERMOSTAT_FAN_MODE(0x44,"THERMOSTAT_FAN_MODE",null),
-		THERMOSTAT_FAN_STATE(0x45,"THERMOSTAT_FAN_STATE",null),
+		THERMOSTAT_FAN_MODE(0x44,"THERMOSTAT_FAN_MODE",ZWaveThermostatFanModeCommandClass.class),
+		THERMOSTAT_FAN_STATE(0x45,"THERMOSTAT_FAN_STATE",ZWaveThermostatFanStateCommandClass.class),
 		CLIMATE_CONTROL_SCHEDULE(0x46,"CLIMATE_CONTROL_SCHEDULE",null),
 		THERMOSTAT_SETBACK(0x47,"THERMOSTAT_SETBACK",null),
 		DOOR_LOCK_LOGGING(0x4C,"DOOR_LOCK_LOGGING",null),
@@ -403,7 +404,7 @@ public abstract class ZWaveCommandClass {
 		GEOGRAPHIC_LOCATION(0x8C,"GEOGRAPHIC_LOCATION",null),
 		COMPOSITE(0x8D,"COMPOSITE",null),
 		MULTI_INSTANCE_ASSOCIATION(0x8E,"MULTI_INSTANCE_ASSOCIATION",null),
-		MULTI_CMD(0x8F,"MULTI_CMD",null),
+		MULTI_CMD(0x8F,"MULTI_CMD",ZWaveMultiCommandCommandClass.class),
 		ENERGY_PRODUCTION(0x90,"ENERGY_PRODUCTION",null),
 		MANUFACTURER_PROPRIETARY(0x91,"MANUFACTURER_PROPRIETARY",null),
 		SCREEN_MD(0x92,"SCREEN_MD",null),

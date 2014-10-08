@@ -116,6 +116,10 @@
     <module>org.openhab.binding.ecotouch</module>
     <module>org.openhab.binding.yamahareceiver</module>
     <module>org.openhab.binding.energenie</module>
+    <module>org.openhab.binding.maxcul</module>
+    <module>org.openhab.binding.wemo</module>
+    <module>org.openhab.binding.ekey</module>
+    <module>org.openhab.binding.alarmdecoder</module>
   </modules>
 
 </project>
