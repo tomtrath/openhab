@@ -345,6 +345,15 @@
 		</Product>
 		<Product>
 			<Reference>
+				<Type>4001</Type>
+				<Id>0000</Id>
+			</Reference>
+			<Model>064367</Model>
+			<Label lang="en">Insert blind control</Label>
+			<ConfigFile>reitz/064367.xml</ConfigFile>
+		</Product>
+		<Product>
+			<Reference>
 				<Type>0001</Type>
 				<Id>0000</Id>
 			</Reference>
@@ -461,6 +470,19 @@
 	<Manufacturer>
 		<Id>0086</Id>
 		<Name>Aeon Labs</Name>
+		<Product>
+			<Reference>
+				<Type>0003</Type>
+				<Id>000a</Id>
+			</Reference>
+			<Reference>
+				<Type>0003</Type>
+				<Id>004e</Id>
+			</Reference>
+			<Model>HDS</Model>
+			<Label lang="en">Heavy Duty Switch</Label>
+			<ConfigFile>aeon/hds.xml</ConfigFile>
+		</Product>
 		<Product>
 			<Reference>
 				<Type>0019</Type>
@@ -641,6 +663,10 @@
 			</Reference>
 			<Reference>
 				<Type>1E12</Type>
+				<Id>015E</Id>
+			</Reference>
+			<Reference>
+				<Type>3200</Type>
 				<Id>015E</Id>
 			</Reference>
 			<Reference>
@@ -1412,11 +1438,19 @@
 			<Label lang="en">Mini Keypad RFID/Z-Wave</Label>
 			<ConfigFile>wintop/wtrfid.xml</ConfigFile>
 		</Product>
-
+		<Product>
+			<Reference>
+				<Type>6131</Type>
+				<Id>4501</Id>
+			</Reference>
+			<Model>EasyPlug</Model>
+			<Label lang="en">Wall Plug</Label>
+			<ConfigFile>wintop/easyplug.xml</ConfigFile>
+		</Product>
 	</Manufacturer>
 	<Manufacturer>
 		<Id>84</Id>
-		<Name>Fortrezz</Name>
+		<Name>FortrezZ</Name>
 		<Product>
 			<Reference>
 				<Type>453</Type>
@@ -1432,6 +1466,15 @@
 				<Id>0108</Id>
 			</Reference>
 			<Model>SSA1/SSA2</Model>
+			<Label lang="en">Siren and Strobe Alarm</Label>
+			<ConfigFile>fortrezz/ssa1.xml</ConfigFile>
+		</Product>
+		<Product>
+			<Reference>
+				<Type>0341</Type>
+				<Id>0205</Id>
+			</Reference>
+			<Model>SSA3</Model>
 			<Label lang="en">Siren and Strobe Alarm</Label>
 			<ConfigFile>fortrezz/ssa1.xml</ConfigFile>
 		</Product>
@@ -1456,6 +1499,19 @@
 			<Model>plugInDimmer</Model>
 			<Label lang="en">BeNext Plug-in Dimmer</Label>
 			<ConfigFile>benext/plugindimmer.xml</ConfigFile>
+		</Product>
+	</Manufacturer>
+	<Manufacturer>
+		<Id>008c</Id>
+		<Name>MIOS</Name>
+		<Product>
+			<Reference>
+				<Type>0001</Type>
+				<Id>0001</Id>
+			</Reference>
+			<Model>Vera</Model>
+			<Label lang="en">Vera Home Gateway</Label>
+			<ConfigFile>mios/vera.xml</ConfigFile>
 		</Product>
 	</Manufacturer>
 </Manufacturers>
