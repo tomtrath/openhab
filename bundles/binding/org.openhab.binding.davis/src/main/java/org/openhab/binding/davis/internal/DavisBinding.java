@@ -200,16 +200,14 @@ public class DavisBinding extends AbstractActiveBinding<DavisBindingProvider> im
 	protected void resetAfterError() {
 		//Drop the rest
 		try {
-			//sleep(500);
-			logger.warn("error, dropping remaining data!");
-			readResponse();
-			//sleep(100);
+			logger.debug("dropping remaining data!");
+			readResponse();			
 			wakeup();
 			writeString("RXTEST\n");
 			byte[] buf = readResponse();
 			expectString(buf,"\n\rOK\n\r");
 		} catch (IOException e1) {
-			logger.warn("IO Exception reset after Error: "+e1);			
+			logger.warn("communication lost, reopening serial port");			
 			closePort(); 
 			try {
 				openPort();
@@ -368,9 +366,9 @@ public class DavisBinding extends AbstractActiveBinding<DavisBindingProvider> im
 				awake = true;
 				return awake;
 			} catch (IOException e) {
-				logger.warn("wakeup failed, retry");
+				logger.debug("wakeup failed, retry");
 			}
-			sleep(1200);
+			sleep(400);
 		}
 		return awake;
 	}
