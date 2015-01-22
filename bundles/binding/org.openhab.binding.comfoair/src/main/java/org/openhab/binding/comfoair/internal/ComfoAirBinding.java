@@ -14,9 +14,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import org.apache.commons.lang.StringUtils;
 import org.openhab.binding.comfoair.ComfoAirBindingProvider;
 import org.openhab.binding.comfoair.datatypes.ComfoAirDataType;
+import org.openhab.binding.comfoair.datatypes.DataTypeRPM;
 import org.openhab.binding.comfoair.handling.ComfoAirCommand;
 import org.openhab.binding.comfoair.handling.ComfoAirCommandType;
 import org.openhab.binding.comfoair.handling.ComfoAirConnector;
@@ -148,11 +151,11 @@ public class ComfoAirBinding extends AbstractActiveBinding<ComfoAirBindingProvid
 			ComfoAirCommandType.getCommandTypesByReplyCmd(command.getReplyCmd());
 
 		for (ComfoAirCommandType commandType : commandTypes) {
-			ComfoAirDataType dataType = commandType.getDataType();
+			ComfoAirDataType dataType = commandType.getDataType();			
 			State value = dataType.convertToState(response, commandType);
 
 			if (value == null) {
-				logger.error("Unexpected value for DATA: " + ComfoAirConnector.dumpData(response));
+				logger.error("Unexpected value for DATA: " + ComfoAirConnector.dumpData(response) + " Command: " + String.format(" %02x", command.getReplyCmd()));				
 			} else {
 				for (ComfoAirBindingProvider provider : providers) {
 					List<String> items = provider.getItemNamesForCommandKey(commandType.getKey());

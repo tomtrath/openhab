@@ -19,6 +19,7 @@ import org.openhab.binding.comfoair.datatypes.ComfoAirDataType;
 import org.openhab.binding.comfoair.datatypes.DataTypeBoolean;
 import org.openhab.binding.comfoair.datatypes.DataTypeMessage;
 import org.openhab.binding.comfoair.datatypes.DataTypeNumber;
+import org.openhab.binding.comfoair.datatypes.DataTypeRPM;
 import org.openhab.binding.comfoair.datatypes.DataTypeTemperature;
 import org.openhab.core.types.State;
 import org.slf4j.Logger;
@@ -71,6 +72,16 @@ public enum ComfoAirCommandType {
 			read_reply_command = 0x0c;
 			read_reply_data_pos = new int[] { 0 };
 		}
+	},	
+	
+	INCOMMING_FAN_RPM {
+		{
+			key = "incomming_fan_rpm";
+			data_type = DataTypeRPM.class;
+			read_command = 0x0b;
+			read_reply_command = 0x0c;
+			read_reply_data_pos = new int[] { 2, 3 };
+		}
 	},
 
 	OUTGOING_FAN {
@@ -80,6 +91,16 @@ public enum ComfoAirCommandType {
 			read_command = 0x0b;
 			read_reply_command = 0x0c;
 			read_reply_data_pos = new int[] { 1 };
+		}
+	},
+	
+	OUTGOING_FAN_RPM {
+		{
+			key = "outgoing_fan_rpm";
+			data_type = DataTypeRPM.class;
+			read_command = 0x0b;
+			read_reply_command = 0x0c;
+			read_reply_data_pos = new int[] { 4, 5 };
 		}
 	},
 
@@ -184,6 +205,100 @@ public enum ComfoAirCommandType {
 			read_reply_command = 0x3c;
 			read_reply_data_pos = new int[] { 9 };
 			read_reply_data_bits = 0x02;
+		}
+	},
+	
+	BYPASS_KLAPPE {
+		{
+			key = "bypass_klappe";
+			data_type = DataTypeNumber.class;
+			read_command = 0x0d;
+			read_reply_command = 0x0e;
+			read_reply_data_pos = new int[] { 0 };			
+		}
+	},
+	
+	BYPASS_RUNNING {
+		{
+			key = "bypass_running";
+			data_type = DataTypeNumber.class;
+			read_command = 0xdd;
+			read_reply_command = 0xde;
+			read_reply_data_pos = new int[] { 13, 14 };
+		}
+	},
+	
+	PREHEAT {
+		{
+			key = "preheat";
+			data_type = DataTypeNumber.class;
+			possible_values = new int[] { 0x00, 0x01 };
+			read_command = 0xe1;
+			read_reply_command = 0xe2;
+			read_reply_data_pos = new int[] { 2 };			
+		}
+	},
+	
+	PREHEAT_KLAPPE {
+		{
+			key = "preheat_klappe";
+			data_type = DataTypeNumber.class;
+			possible_values = new int[] { 0x00, 0x01, 0x02 };
+			read_command = 0x0d;
+			read_reply_command = 0x0e;
+			read_reply_data_pos = new int[] { 1 };			
+		}
+	},
+		
+	PREHEAT_RUNNING {
+		{
+			key = "preheat_running";
+			data_type = DataTypeNumber.class;
+			read_command = 0xdd;
+			read_reply_command = 0xde;
+			read_reply_data_pos = new int[] { 11, 12 };
+		}
+	},
+	
+	FROST_PROTECTION {
+		{
+			key = "frost_protect";
+			data_type = DataTypeNumber.class;
+			possible_values = new int[] { 0x00, 0x01 };
+			read_command = 0xe1;
+			read_reply_command = 0xe2;
+			read_reply_data_pos = new int[] { 1 };			
+		}
+	},
+	
+	FROST_PROTECTION_LEVEL {
+		{
+			key = "frost_protection_level";
+			data_type = DataTypeNumber.class;
+			possible_values = new int[] { 0x01, 0x02, 0x3, 0x4 };
+			read_command = 0xe1;
+			read_reply_command = 0xe2;
+			read_reply_data_pos = new int[] { 5 };
+		}
+	},
+	
+	FROST_TIME {
+		{
+			key = "frost_time";
+			data_type = DataTypeNumber.class;
+			read_command = 0xe1;
+			read_reply_command = 0xe2;
+			read_reply_data_pos = new int[] { 3, 4 };
+		}
+	},
+	
+	FROST_PROTECT_RUNNING {
+		{
+			key = "frost_protect_running";
+			data_type = DataTypeNumber.class;
+			read_command = 0xdd;
+			read_reply_command = 0xde;
+			read_reply_data_pos = new int[] { 9, 10 };
 		}
 	},
 
