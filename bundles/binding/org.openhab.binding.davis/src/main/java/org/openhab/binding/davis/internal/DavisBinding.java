@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2014, openHAB.org and others.
+ * Copyright (c) 2010-2015, openHAB.org and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -97,7 +97,7 @@ public class DavisBinding extends AbstractActiveBinding<DavisBindingProvider> im
 	@Override
 	protected void execute() {
 		// the frequently executed code (polling) goes here ...
-		logger.debug("execute() method is called!");
+		logger.trace("execute() method is called!");
 		
 		try {
 			openPort();
@@ -123,11 +123,11 @@ public class DavisBinding extends AbstractActiveBinding<DavisBindingProvider> im
 			logger.error(e.getMessage());					
 		}
 				
-		logger.debug("execute() method is finished!");
+		logger.trace("execute() method is finished!");
 	}
 		
 	public void updated(Dictionary<String, ?> config) throws ConfigurationException {
-		logger.debug("update() method is called!");
+		logger.trace("update() method is called!");
 		if (config != null) {
 			// to override the default refresh interval one has to add a 
 			// parameter to openhab.cfg like <bindingName>:refresh=<intervalInMs>
@@ -200,14 +200,14 @@ public class DavisBinding extends AbstractActiveBinding<DavisBindingProvider> im
 	protected void resetAfterError() {
 		//Drop the rest
 		try {
-			logger.debug("dropping remaining data!");
-			readResponse();			
+			logger.warn("error, dropping remaining data!");
+			readResponse();
 			wakeup();
 			writeString("RXTEST\n");
 			byte[] buf = readResponse();
 			expectString(buf,"\n\rOK\n\r");
 		} catch (IOException e1) {
-			logger.warn("communication lost, reopening serial port");			
+			logger.warn("IO Exception reset after Error: "+e1);			
 			closePort(); 
 			try {
 				openPort();
