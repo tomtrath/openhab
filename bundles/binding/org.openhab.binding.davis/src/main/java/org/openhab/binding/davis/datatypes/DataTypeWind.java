@@ -27,7 +27,7 @@ public class DataTypeWind implements DavisDataType {
 	 * {@inheritDoc}
 	 */
 	public State convertToState(byte[] data, DavisValueType valueType) {
-		byte value = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).get(valueType.getDataOffset());		
+		byte value = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).get(valueType.getDataOffset());			
 		return new DecimalType((double)value * 1.609344);
 	}
 

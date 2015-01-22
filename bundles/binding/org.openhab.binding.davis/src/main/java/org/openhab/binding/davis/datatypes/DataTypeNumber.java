@@ -35,7 +35,9 @@ public class DataTypeNumber implements DavisDataType {
 				res = new DecimalType(bb.get(valueType.getDataOffset()));
 				break;
 			case 2:
-				res = new DecimalType(bb.getShort(valueType.getDataOffset()));
+				short value = bb.getShort(valueType.getDataOffset());
+				if (value==32767) throw new NumberFormatException("no value");
+				res = new DecimalType(value);
 				break;
 			case 4:
 				res = new DecimalType(bb.getInt(valueType.getDataOffset()));

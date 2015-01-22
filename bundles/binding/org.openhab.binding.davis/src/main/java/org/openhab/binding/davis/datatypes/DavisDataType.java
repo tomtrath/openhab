@@ -25,6 +25,6 @@ public interface DavisDataType {
 	 * @param valueType
 	 * @return converted State object
 	 */
-	State convertToState(byte[] data, DavisValueType valueType);
+	State convertToState(byte[] data, DavisValueType valueType) throws NumberFormatException;
 	
 }

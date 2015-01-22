@@ -320,9 +320,13 @@ public class DavisBinding extends AbstractActiveBinding<DavisBindingProvider> im
 					//get items and post Updates for all items with key
 					for (DavisBindingProvider provider : providers) {
 						List<String> itemNames = provider.getItemNamesForKey(valueType.getKey());
-						State state = valueType.getDataType().convertToState(inputBuf, valueType);
-						for (String itemName : itemNames) {
-							eventPublisher.postUpdate(itemName, state);
+						try {
+							State state = valueType.getDataType().convertToState(inputBuf, valueType);
+							for (String itemName : itemNames) {
+								eventPublisher.postUpdate(itemName, state);
+							}
+						} catch (NumberFormatException nfe) {
+							logger.debug(nfe.getMessage());
 						}
 					}
 				}

@@ -27,7 +27,8 @@ public class DataTypeWindHiRes implements DavisDataType {
 	 * {@inheritDoc}
 	 */
 	public State convertToState(byte[] data, DavisValueType valueType) {
-		short value = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort(valueType.getDataOffset());		
+		short value = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort(valueType.getDataOffset());	
+		if (value==32768) throw new NumberFormatException("no value");
 		return new DecimalType((double)value*0.1 * 1.609344);
 	}
 
