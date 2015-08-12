@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
  * @author Andreas Brenk
  * @author Thomas.Eichstaedt-Engelen
  * @author Gaël L'hopital
+ * @author Rob Nielsen
  * @since 1.4.0
  */
 public class NetatmoBinding extends
@@ -63,6 +64,8 @@ public class NetatmoBinding extends
 	protected static final String CONFIG_CLIENT_SECRET = "clientsecret";
 	protected static final String CONFIG_REFRESH = "refresh";
 	protected static final String CONFIG_REFRESH_TOKEN = "refreshtoken";
+	protected static final String CONFIG_PRESSURE_UNIT = "pressureunit";
+	protected static final String CONFIG_UNIT_SYSTEM = "unitsystem";
 
 	/**
 	 * The refresh interval which is used to poll values from the Netatmo server
@@ -73,6 +76,10 @@ public class NetatmoBinding extends
 	private PointType stationPosition = null;
 
 	private Map<String, OAuthCredentials> credentialsCache = new HashMap<String, OAuthCredentials>();
+
+	private NetatmoPressureUnit pressureUnit = NetatmoPressureUnit.DEFAULT_PRESSURE_UNIT;
+
+	private NetatmoUnitSystem unitSystem = NetatmoUnitSystem.DEFAULT_UNIT_SYSTEM;
 
 	/**
 	 * {@inheritDoc}
@@ -111,10 +118,6 @@ public class NetatmoBinding extends
 				}
 
 				DeviceMeasureValueMap deviceMeasureValueMap = processMeasurements(oauthCredentials);
-				if (deviceMeasureValueMap == null) {
-					return;
-				}
-
 				for (final NetatmoBindingProvider provider : this.providers) {
 					for (final String itemName : provider.getItemNames()) {
 						final String deviceId = provider.getDeviceId(itemName);
@@ -156,13 +159,19 @@ public class NetatmoBinding extends
 						case RAIN:
 							final String requestKey = createKey(deviceId,
 									moduleId);
-							final Map<String, BigDecimal> map = deviceMeasureValueMap
-									.get(requestKey);
-							final BigDecimal value = map != null ? map
-									.get(measureType.getMeasure()) : null;
+							BigDecimal value = deviceMeasureValueMap.get(
+									requestKey).get(measureType.getMeasure());
 							// Protect that sometimes Netatmo returns null where
 							// numeric value is awaited (issue #1848)
 							if (value != null) {
+								if (measureType == NetatmoMeasureType.TEMPERATURE) {
+									value = unitSystem.convertTemp(value);
+								} else if (measureType == NetatmoMeasureType.RAIN) {
+									value = unitSystem.convertRain(value);
+								} else if (measureType == NetatmoMeasureType.PRESSURE) {
+									value = pressureUnit.convertPressure(value);
+								}
+
 								state = new DecimalType(value);
 							}
 							break;
@@ -202,8 +211,8 @@ public class NetatmoBinding extends
 													device.getLatitude()),
 											new DecimalType(device
 													.getLongitude()),
-											new DecimalType(device
-													.getAltitude()));
+											new DecimalType(Math.round(unitSystem.
+													convertAltitude(device.getAltitude()))));
 								}
 								if (device.getId().equals(deviceId)) {
 									switch (measureType) {
@@ -270,11 +279,11 @@ public class NetatmoBinding extends
 				if (error.isAccessTokenExpired()) {
 					oauthCredentials.refreshAccessToken();
 					execute();
-
-					return null;
 				} else {
 					throw new NetatmoException(error.getMessage());
 				}
+
+				break; // abort processing measurement requests
 			} else {
 				processMeasurementResponse(request, response,
 						deviceMeasureValueMap);
@@ -530,6 +539,24 @@ public class NetatmoBinding extends
 					credentials.clientSecret = value;
 				} else if (CONFIG_REFRESH_TOKEN.equals(configKeyTail)) {
 					credentials.refreshToken = value;
+				} else if (CONFIG_PRESSURE_UNIT.equals(configKeyTail)) {
+					try {
+						pressureUnit = NetatmoPressureUnit.fromString(value);
+					} catch (IllegalArgumentException e) {
+						throw new ConfigurationException(configKey,
+								"the value '" + value
+										+ "' is not valid for the configKey '"
+										+ configKey +"'");
+					}
+				} else if (CONFIG_UNIT_SYSTEM.equals(configKeyTail)) {
+					try {
+						unitSystem = NetatmoUnitSystem.fromString(value);
+					} catch (IllegalArgumentException e) {
+						throw new ConfigurationException(configKey,
+								"the value '" + value
+										+ "' is not valid for the configKey '"
+										+ configKey +"'");
+					}
 				} else {
 					throw new ConfigurationException(configKey,
 							"the given configKey '" + configKey
