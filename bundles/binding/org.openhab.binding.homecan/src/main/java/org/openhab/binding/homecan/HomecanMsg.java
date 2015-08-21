@@ -29,7 +29,8 @@ public class HomecanMsg {
 		WIND_DIRECTION		(0x0F),
 		RAIN				(0x10),
 		INCDEC				(0x11),
-		FTKID				(0x12),	
+		ENOCEANID			(0x12),
+		FRW					(0x13),	
 		//KEY_PRESSED		(0x16),
 		//KEY_RELEASED		(0x17),
 		

@@ -71,6 +71,7 @@ public class HomecanCoreMsgTypeMapper implements HomecanMsgTypeMapper {
 				case KWB_HK:
 				case HUMIDITY:
 				case UV_INDEX:
+				case FRW:
 					data = new byte[1];
 					data[0] = dType.byteValue();
 					return data;
@@ -153,6 +154,7 @@ public class HomecanCoreMsgTypeMapper implements HomecanMsgTypeMapper {
 				case KWB_HK:
 				case HUMIDITY:
 				case UV_INDEX:
+				case FRW:
 					return DecimalType.valueOf(Integer.toString(msg.data[0]&0xFF));
 				case LUMINOSITY:
 				case TEMPERATURE:
@@ -170,7 +172,7 @@ public class HomecanCoreMsgTypeMapper implements HomecanMsgTypeMapper {
 		} else if (typeClass.equals(StringType.class)) {
 			if (msg.msgtype == HomecanMsg.MsgType.KEY_SEQUENCE) {
 				return StringType.valueOf(Arrays.toString(msg.data));
-			} else if (msg.msgtype == HomecanMsg.MsgType.FTKID) {
+			} else if (msg.msgtype == HomecanMsg.MsgType.ENOCEANID) {
 				return StringType.valueOf(Integer.toString(ByteBuffer.wrap(msg.data).order(ByteOrder.LITTLE_ENDIAN).getInt()));
 			} else if (msg.msgtype == HomecanMsg.MsgType.IR) {
 				ByteBuffer buffer = ByteBuffer.wrap(msg.data).order(ByteOrder.LITTLE_ENDIAN);
