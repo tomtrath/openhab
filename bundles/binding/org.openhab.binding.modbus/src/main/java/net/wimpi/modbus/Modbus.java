@@ -199,7 +199,7 @@ public interface Modbus {
    * Defines the default number of msec to delay before transmission
    * (=<tt>50</tt>).
    */
-  public static final int DEFAULT_TRANSMIT_DELAY = 0;
+  public static final int DEFAULT_TRANSMIT_DELAY = 50;
 
   /**
    * Defines the maximum value of the transaction identifier.
