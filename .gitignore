@@ -15,5 +15,5 @@ distribution/openhabhome/etc/rrd4j/*.rrd
 *.xml_gen
 *.orig
 *~
-distribution/openhabhome/webapps/static/uuid
-distribution/openhabhome/webapps/static/version
+features/*/src/main/history
+itemDump.txt
